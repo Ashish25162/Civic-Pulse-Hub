@@ -1,0 +1,193 @@
+<html>
+    <head>
+        <title>Submit Grievance</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+            
+            body {
+                background-color: #f5f5f5;
+                padding: 20px;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            form {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 500px;
+            }
+            
+            pre {
+                background: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+                font-family: inherit;
+                white-space: normal;
+            }
+            
+            select, input[type="text"], input[type="file"] {
+                width: 100%;
+                padding: 12px;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            
+            input[type="file"] {
+                padding: 10px;
+                border: 2px dashed #ccc;
+                background-color: #f9f9f9;
+                cursor: pointer;
+            }
+            
+            input[type="file"]:hover {
+                border-color: #4CAF50;
+            }
+            
+            input[type="submit"] {
+                width: 100%;
+                padding: 12px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            
+            input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+            
+            .file-info {
+                font-size: 14px;
+                color: #666;
+                margin-top: -10px;
+                margin-bottom: 15px;
+            }
+            
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #333;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="Submit_Grievance" method="post" enctype="multipart/form-data">
+            <h1>Submit Grievance</h1>
+            <pre>
+            <select name="Department">
+                <option value="" selected>Select department your grievance is related to</option>
+                <option value="Transport">Transport</option>
+                <option value="Sanitation">Sanitation</option>
+                <option value="Water">Water supply</option>
+                <option value="Garbage">Garbage</option>
+                <option value="Sewerage">Sewerage</option>
+                <option value="Electricity">Electricity</option>
+            </select>
+            <input type="button" value="Get My Location" onclick="getLocation()">
+            <div id="coordinates" style="margin-top:5px; font-style:italic;"></div>
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+            <input type="text" name="Location" placeholder="Enter your exact location" required>
+            
+            <input type="text" name="Desc" placeholder="Enter grievance description" required>
+            
+            <input type="file" name="img" accept="image/*" required>
+            <div class="file-info">Accepted formats: JPG, PNG, GIF. Max size: 5MB</div>
+            
+            <input type="submit" value="Submit Grievance">
+            </pre>
+        </form>
+        
+        <script>
+            // Show selected file name
+            document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+                const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
+                const fileInfo = document.querySelector('.file-info');
+                fileInfo.textContent = `Selected: ${fileName} | Accepted formats: JPG, PNG, GIF. Max size: 5MB`;
+                
+                // Optional: Validate file size
+                if (this.files[0] && this.files[0].size > 5 * 1024 * 1024) {
+                    alert('File size exceeds 5MB limit. Please choose a smaller file.');
+                    this.value = '';
+                    fileInfo.textContent = 'Accepted formats: JPG, PNG, GIF. Max size: 5MB';
+                }
+            });
+            function getLocation() {
+    const statusDiv = document.getElementById('coordinates');
+    
+    // FIRST: Check the current permission state
+    if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then(function(permissionStatus) {
+            
+            // Handle the "denied" state immediately
+            if (permissionStatus.state === 'denied') {
+                statusDiv.innerHTML = `
+                    <div style="color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; border-left: 4px solid #d32f2f;">
+                        <strong>Location access is permanently blocked.</strong><br>
+                        1. Click the lock icon (<span style="font-size:1.2em;">🔒</span>) in your address bar<br>
+                        2. Change "Location" from "Blocked" to "Allow"<br>
+                        3. <a href="javascript:location.reload(true);">Reload this page</a> and try again.<br><br>
+                        <em>Or simply type your address below.</em>
+                    </div>
+                `;
+                return; // Stop here, don't even try getCurrentPosition
+            }
+            
+            // If permission is "granted" or "prompt", proceed as normal
+            requestLocation();
+        });
+    } else {
+        // Fallback for browsers that don't support Permissions API
+        requestLocation();
+    }
+    
+    // Your original location request logic, now in a separate function
+    function requestLocation() {
+        if (navigator.geolocation) {
+            statusDiv.innerHTML = "Requesting location...";
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // Success code (keep your existing success logic here)
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lng;
+                    statusDiv.innerHTML = `✅ Location captured: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                    document.getElementsByName('Location')[0].value = `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+                },
+                function(error) {
+                    // This will now only handle errors OTHER than permanent denial
+                    if (error.code === error.PERMISSION_DENIED) {
+                        statusDiv.innerHTML = "Please enable location access in your browser settings.";
+                    }
+                    // ... other error cases
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        } else {
+            statusDiv.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+}
+           
+        </script>
+    </body>
+</html>
