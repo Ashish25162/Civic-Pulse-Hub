@@ -57,14 +57,14 @@ public class User_Login extends HttpServlet {
                 response.sendRedirect("User_Dashboard.jsp");
             } else {
                 out.print("<div style='color: red; text-align: center; margin: 20px;'>Invalid email or password!</div>");
-                RequestDispatcher rd = request.getRequestDispatcher("User_Login.html");
+                RequestDispatcher rd = request.getRequestDispatcher("user_login.html");
                 rd.include(request, response);
             }
             
             cn.close();
         } catch(Exception e) {
             out.println("<div style='color: red; text-align: center; margin: 20px;'>Error: " + e.getMessage() + "</div>");
-            RequestDispatcher rd = request.getRequestDispatcher("User_Login.html");
+            RequestDispatcher rd = request.getRequestDispatcher("user_login.html");
             rd.include(request, response);
         }
     }

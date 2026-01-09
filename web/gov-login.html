@@ -1,15 +1,352 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Civic Pulse Hub | Secure Government Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        /* ================= HEADER ================= */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .header-top,
+        .header-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 25px;
+        }
+
+        .header-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.4);
+        }
+
+        .header-top-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-top-left img {
+            height: 32px;
+        }
+
+        .header-bottom-left {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .header-bottom-right button {
+            background: #fff;
+            color: #1e3c72;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .header-bottom-right button:hover {
+            background: #e6e6e6;
+            transform: scale(1.05);
+        }
+
+        /* ================= MAIN ================= */
+        .container {
+            display: flex;
+            width: 900px;
+            max-width: 95%;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 50px rgba(0,0,0,0.35);
+        }
+
+        /* INFO PANEL */
+        .info-panel {
+            width: 45%;
+            background: linear-gradient(180deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 45px;
+        }
+
+        .info-panel h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .info-panel p.subtitle {
+            font-size: 16px;
+            margin-bottom: 22px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .info-panel ul.features {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-panel ul.features li {
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 14px;
+            padding-left: 26px;
+            position: relative;
+        }
+
+        .info-panel ul.features li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #a5d6ff;
+            font-weight: bold;
+        }
+
+        /* LOGIN PANEL */
+        .login-panel {
+            width: 55%;
+            padding: 45px 40px;
+        }
+
+        .login-panel h2 {
+            text-align: center;
+            color: #1e3c72;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 7px rgba(30,60,114,0.4);
+        }
+
+        .password-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .password-actions button {
+            background: none;
+            border: none;
+            color: #1e3c72;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .password-actions button:hover {
+            text-decoration: underline;
+            color: #0d47a1;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            transform: translateY(-2px);
+        }
+
+        .forgot {
+            text-align: right;
+            margin-top: 12px;
+        }
+
+        .forgot a {
+            color: #1e3c72;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border-top: 1px solid #ccc;
+            padding: 9px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .info-panel, .login-panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-top">
+        <div class="header-top-left">
+            <img src="logo.png" alt="Logo">
+            <strong>Civic Pulse Hub</strong>
+        </div>
+        <div id="dateTime"></div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-bottom">
+        <div class="header-bottom-left">For official use only</div>
+        <div class="header-bottom-right">
+            <button onclick="location.href='index.html'">Home</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <div class="info-panel">
+        <h1>Civic Pulse Hub</h1>
+        <p class="subtitle">
+            Secure, centralized civic governance platform providing authorized personnel with tools to manage and resolve citizen grievances efficiently.
+        </p>
+
+        <ul class="features">
+            <li>Real-time analytics and performance dashboards</li>
+            <li>Direct communication with citizens</li>
+            <li>Grievance tracking within defined SLAs</li>
+            <li>Generate detailed reports for monitoring and evaluation</li>
+            <li>Centralized role-based access for all government departments</li>
+        </ul>
+    </div>
+
+    <div class="login-panel">
+        <h2>Government Login</h2>
+
+        <form action="Gov_Login" method="post">
+
+            <label>Select Role</label>
+            <select name="role" required>
+                <option value="">-- Choose Role --</option>
+                <option value="admin">Administrator</option>
+                <option value="operator">Department Operator</option>
+                <option value="worker">Worker</option>
+            </select>
+
+            <label>Username</label>
+            <input type="email" name="username" required>
+
+            <label>Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="password-actions">
+                <button type="button" id="toggleBtn" onclick="togglePassword()">Show Password</button>
+            </div>
+
+            <button type="submit">Login</button>
+
+            <div class="forgot">
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    Designed, Developed and Hosted by <strong>Ashish</strong><br>
+    © 2025 All Rights Reserved. Last Updated: <span id="lastUpdated"></span>
+</div>
+
+<script>
+    function togglePassword() {
+        const pwd = document.getElementById("password");
+        const btn = document.getElementById("toggleBtn");
+        if (pwd.type === "password") {
+            pwd.type = "text";
+            btn.innerText = "Hide Password";
+        } else {
+            pwd.type = "password";
+            btn.innerText = "Show Password";
+        }
+    }
+
+    document.getElementById("dateTime").innerText =
+        new Date().toLocaleDateString('en-GB', {
+            weekday: 'long',
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+
+    document.getElementById("lastUpdated").innerText =
+        new Date().toLocaleDateString('en-GB');
+</script>
+
+</body>
 </html>

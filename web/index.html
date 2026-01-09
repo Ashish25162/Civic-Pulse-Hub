@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Pulse Hub | Bridging Citizens & Government</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #2a5bd7;
+            --primary-dark: #1e3f9c;
+            --secondary: #00a86b;
+            --accent: #ff6b35;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --gray: #5f6368;
+            --light-gray: #e8eaed;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Full width container */
+        .full-width-container {
+            width: 100%;
+            padding: 0 5%;
+        }
+
+        @media (min-width: 1400px) {
+            .full-width-container {
+                padding: 0 8%;
+            }
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .header-container {
+            width: 100%;
+            padding: 0 5%;
+        }
+
+        @media (min-width: 1400px) {
+            .header-container {
+                padding: 0 8%;
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            max-width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(42, 91, 215, 0.05);
+        }
+
+        /* Hero Section - Full Width */
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #eef2ff 100%);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .hero-image {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 100%;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item h3 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 100px 0;
+            width: 100%;
+        }
+
+        .features {
+            background-color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            width: 100%;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+            width: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:nth-child(1) {
+            border-color: var(--primary);
+        }
+
+        .feature-card:nth-child(2) {
+            border-color: var(--secondary);
+        }
+
+        .feature-card:nth-child(3) {
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            background-color: var(--primary);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background-color: var(--secondary);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background-color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background-color: #f8fafc;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--light-gray);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow);
+            border: 5px solid #f8fafc;
+        }
+
+        .step h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .step p {
+            color: var(--gray);
+            max-width: 100%;
+        }
+
+        /* Issue Categories */
+        .categories {
+            background-color: white;
+            padding-bottom: 150px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .category-1 .category-icon {
+            background-color: var(--primary);
+        }
+
+        .category-2 .category-icon {
+            background-color: var(--secondary);
+        }
+
+        .category-3 .category-icon {
+            background-color: #ff9f43;
+        }
+
+        .category-4 .category-icon {
+            background-color: #8e44ad;
+        }
+
+        .category-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .category-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer - Original Blue Design */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .footer-about p {
+            color: #bdc1c6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #bdc1c6;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-contact p {
+            color: #bdc1c6;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #3c4043;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons i {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #3c4043;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bdc1c6;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-icons i:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-text, .hero-image {
+                max-width: 100%;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text, .hero-image {
+                max-width: 100%;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                gap: 50px;
+            }
+            
+            .steps-container::before {
+                width: 3px;
+                height: 100%;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .step {
+                padding: 0;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .full-width-container, .header-container {
+                padding: 0 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 25px;
+                align-items: center;
+            }
+            
+            .nav-btns {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .feature-card {
+                padding: 30px 25px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .full-width-container, .header-container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 140px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 80px 0;
+            }
+            
+            .btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="header-container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Civic Pulse Hub</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#categories">Issue Categories</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-btns">
+                    <a href="gov-login.html" class="btn btn-outline">Gov Login</a>
+                    <a href="user_login.html" class="btn btn-primary">Citizen Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="full-width-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Your Voice Matters in <span>Shaping Our Community</span></h1>
+                    <p>Civic Pulse Hub connects citizens with local government to report and resolve community issues quickly and efficiently. From potholes to water supply problems, we make sure your concerns are heard and addressed.</p>
+                    <div class="hero-btns">
+                        <a href="user_login.html" class="btn btn-primary">Report an Issue</a>
+                        <a href="track-complaint.html" class="btn btn-outline">Track Complaint</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>15,820+</h3>
+                            <p>Issues Resolved</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>42+</h3>
+                            <p>Municipalities</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>94%</h3>
+                            <p>Satisfaction Rate</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Civic Engagement">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="full-width-container">
+            <div class="section-title">
+                <h2>Why Choose Civic Pulse Hub</h2>
+                <p>Our platform is designed to make civic engagement simple, transparent, and effective for both citizens and government officials.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Easy Issue Reporting</h3>
+                    <p>Report community issues in minutes with our intuitive mobile and web platform. Upload photos, add location, and describe the problem with ease.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Direct Government Connection</h3>
+                    <p>Your complaints are directly routed to the relevant government department, eliminating middlemen and reducing response time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Transparent Tracking</h3>
+                    <p>Track the status of your complaint in real-time. Get notifications at every stage from submission to resolution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="full-width-container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Our simple 4-step process ensures your civic issues are reported and resolved efficiently.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Report Issue</h4>
+                    <p>Citizen reports a community issue with details, photos, and location.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Route to Department</h4>
+                    <p>System automatically routes the complaint to the relevant government department.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Government Action</h4>
+                    <p>Government officials review, prioritize, and take action to resolve the issue.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Resolution & Feedback</h4>
+                    <p>Citizen is notified of resolution and can provide feedback on the service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Issue Categories -->
+    <section class="categories" id="categories">
+        <div class="full-width-container">
+            <div class="section-title">
+                <h2>Common Issue Categories</h2>
+                <p>Report problems in these common categories or create a custom issue type.</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card category-1">
+                    <div class="category-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <div>
+                        <h4>Roads & Potholes</h4>
+                        <p>Report potholes, damaged roads, broken streetlights</p>
+                    </div>
+                </div>
+                <div class="category-card category-2">
+                    <div class="category-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div>
+                        <h4>Water Supply</h4>
+                        <p>Water leakage, supply issues, quality problems</p>
+                    </div>
+                </div>
+                <div class="category-card category-3">
+                    <div class="category-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <div>
+                        <h4>Waste Management</h4>
+                        <p>Garbage collection, recycling, illegal dumping</p>
+                    </div>
+                </div>
+                <div class="category-card category-4">
+                    <div class="category-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div>
+                        <h4>Parks & Public Spaces</h4>
+                        <p>Maintenance of parks, playgrounds, public facilities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Original Blue Footer -->
+    <footer id="contact">
+        <div class="full-width-container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        Civic Pulse Hub
+                    </a>
+                    <p>Bridging the gap between citizens and government for faster issue resolution and better communities.</p>
+                    <div class="social-icons">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-linkedin-in"></i>
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#categories">Issue Categories</a></li>
+                        <li><a href="gov-login.html">Government Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> support@civicpulsehub.gov</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Civic Center, Cityville 12345</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Civic Pulse Hub. All rights reserved. | A Government-Citizen Partnership Initiative</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Simple animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .step, .category-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

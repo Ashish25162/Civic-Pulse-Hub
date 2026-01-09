@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Back button fixed at top-left corner of the page */
+        .back-btn-page {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-btn-page:hover {
+            background-color: #2980b9;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Full width header */
+        .page-header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Center the header content */
+        .header-main {
+            text-align: center;
+            padding: 10px 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: #9b59b6;
+        }
+        
+        .header-subtitle {
+            padding-top: 10px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background-color: #138496;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #d68910;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .operators-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .operator-details {
+            flex: 2;
+            min-width: 400px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .operator-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        
+        .operator-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .operator-item.active {
+            background-color: #f2e8f9;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .operator-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .operator-role {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .operator-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .detail-section {
+            margin-bottom: 25px;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            width: 150px;
+            color: #555;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .systems-list {
+            list-style-type: none;
+        }
+        
+        .system-item {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .system-title {
+            font-weight: 600;
+            display: block;
+        }
+        
+        .system-status {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .status-inactive {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .status-maintenance {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+        
+        .no-operators {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+        
+        .message-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .message-box i {
+            font-size: 3rem;
+            color: #9b59b6;
+            margin-bottom: 15px;
+        }
+        
+        .message-box h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .message-box p {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px 0;
+        }
+        
+        /* Add Operator Form Styles */
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            border-color: #9b59b6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: white;
+            transition: border-color 0.3s;
+        }
+        
+        .form-select:focus {
+            border-color: #9b59b6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn-submit {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-cancel {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+        }
+        
+        .form-hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .form-error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .form-error.show {
+            display: block;
+        }
+        
+        .add-operator-view {
+            display: none;
+        }
+        
+        .main-view {
+            display: block;
+        }
+        
+        .certification-badge {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .back-btn-page {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn-submit, .btn-cancel {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .header-content {
+                padding: 0 10px;
+            }
+            
+            .back-btn-page {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back button fixed at top-left corner of the entire page -->
+    <button id="backBtnPage" class="back-btn-page">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+    
+    <!-- Full width header -->
+    <header class="page-header">
+        <div class="header-content">
+            <!-- Centered header content -->
+            <div class="header-main">
+                <div class="logo">
+                    <i class="fas fa-user-cog"></i>
+                    <h1>Operator Management</h1>
+                </div>
+                <div class="header-subtitle">
+                    <p>Manage system operators</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Main View (default) -->
+        <div id="mainView" class="main-view">
+            <div class="controls">
+                <!-- Direct link buttons for servlets -->
+                <a id="fetchOperators" class="btn btn-primary" href="Fetch.jsp">
+                    <i class="fas fa-sync-alt"></i> Fetch All Operators
+                </a>
+                <button id="addOperator" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Add New Operator
+                </button>
+                <button id="deleteOperator" class="btn btn-danger">
+                    <i class="fas fa-user-minus"></i> Delete Selected Operator
+                </button>
+                <button id="viewShifts" class="btn btn-warning">
+                    <i class="fas fa-calendar-alt"></i> View Shift Schedule
+                </button>
+                <button id="viewSystems" class="btn btn-info">
+                    <i class="fas fa-desktop"></i> View Managed Systems
+                </button>
+            </div>
+            
+            <div class="content">
+                <div class="operators-list">
+                    <h2>Operators List</h2>
+                    <div id="operatorsContainer">
+                        <div class="message-box">
+                            <i class="fas fa-users"></i>
+                            <h3>No Operators Loaded</h3>
+                            <p>Click "Fetch All Operators" to load operators data from the servlet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="operator-details">
+                    <h2>Operator Details</h2>
+                    <div id="detailsContainer">
+                        <div class="message-box">
+                            <i class="fas fa-user-circle"></i>
+                            <h3>Select an Operator</h3>
+                            <p>Select an operator from the list to view details</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Operator Form View (hidden by default) -->
+        <div id="addOperatorView" class="add-operator-view">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-user-plus"></i> Add New Operator
+                </h2>
+                
+                <!-- Form action set to Add.java servlet -->
+                <form id="addOperatorForm" action="Add" method="POST">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" id="fullName" name="name" class="form-input" placeholder="Enter operator's full name" required>
+                        <span class="form-hint">Enter the full name of the operator</span>
+                        <div id="fullNameError" class="form-error">Please enter a valid name (minimum 3 characters)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="Enter operator's email address" required>
+                        <span class="form-hint">Enter a valid email address</span>
+                        <div id="emailError" class="form-error">Please enter a valid email address</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter operator's phone number" required>
+                        <div id="phoneError" class="form-error">Please enter a valid phone number (10 digits minimum)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department" class="form-label">Department</label>
+                        <select id="department" name="department" class="form-select" required>
+                            <option value="" disabled selected>Select a department</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Water department">Water department</option>
+                            <option value="Waste Management">Waste Management</option>
+                        </select>
+                        <span class="form-hint">Select the department where the operator will be assigned</span>
+                        <div id="departmentError" class="form-error">Please select a department</div>
+                    </div>
+                   <div class="form-group">
+                        <label for="employeeType" class="form-label">Employee Type</label>
+                        <select id="employeeType" name="employeeType" class="form-select" required>
+                            <option value="operator" selected>operator</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelBtn" class="btn-cancel">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" id="saveBtn" class="btn-submit">
+                            <i class="fas fa-save"></i> Save Operator
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Operator Management System &copy; 2023 | All Rights Reserved</p>
+        </footer>
+    </div>
+
+   <script>
+    // DOM elements
+    const deleteOperatorBtn = document.getElementById('deleteOperator');
+    const viewShiftsBtn = document.getElementById('viewShifts');
+    const viewSystemsBtn = document.getElementById('viewSystems');
+    const backBtnPage = document.getElementById('backBtnPage');
+    const operatorsContainer = document.getElementById('operatorsContainer');
+    const detailsContainer = document.getElementById('detailsContainer');
+    const addOperatorBtn = document.getElementById('addOperator');
+    const mainView = document.getElementById('mainView');
+    const addOperatorView = document.getElementById('addOperatorView');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const addOperatorForm = document.getElementById('addOperatorForm');
+    const fullNameInput = document.getElementById('fullName');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const departmentSelect = document.getElementById('department');
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+        // Event listeners
+        deleteOperatorBtn.addEventListener('click', showDeleteMessage);
+        viewShiftsBtn.addEventListener('click', showShiftsMessage);
+        viewSystemsBtn.addEventListener('click', showSystemsMessage);
+        
+        // Add Operator button - show form
+        addOperatorBtn.addEventListener('click', showAddOperatorForm);
+        
+        // Cancel button - go back to main view
+        cancelBtn.addEventListener('click', showMainView);
+        
+        // Form validation - will now submit to servlet
+        addOperatorForm.addEventListener('submit', validateAndSubmitForm);
+        
+        // Real-time validation
+        fullNameInput.addEventListener('blur', validateFullName);
+        emailInput.addEventListener('blur', validateEmail);
+        phoneInput.addEventListener('blur', validatePhone);
+        departmentSelect.addEventListener('change', validateDepartment);
+        
+        // Back button functionality
+        backBtnPage.addEventListener('click', handleBackButton);
+        
+        // REMOVED: loadSampleOperators() - No manual data loaded
+    });
+
+    // Display operators in the list (empty by default)
+    function displayOperators(operators) {
+        if (!operators || operators.length === 0) {
+            operatorsContainer.innerHTML = `
+                <div class="message-box">
+                    <i class="fas fa-users"></i>
+                    <h3>No Operators Available</h3>
+                    <p>Click "Add New Operator" to add operators to the system</p>
+                </div>
+            `;
+            return;
+        }
+        
+        operatorsContainer.innerHTML = '';
+        
+        operators.forEach(operator => {
+            const operatorItem = document.createElement('div');
+            operatorItem.className = 'operator-item';
+            operatorItem.dataset.id = operator.id;
+            operatorItem.innerHTML = `
+                <div>
+                    <div class="operator-name">${operator.name}</div>
+                    <div class="operator-role">${operator.department}</div>
+                </div>
+                <div class="operator-actions">
+                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+            
+            operatorItem.addEventListener('click', function() {
+                // Remove active class from all operators
+                document.querySelectorAll('.operator-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Add active class to clicked operator
+                this.classList.add('active');
+                
+                // Show operator details
+                showOperatorDetails(operator);
+            });
+            
+            operatorsContainer.appendChild(operatorItem);
+        });
+    }
+
+    // Show Add Operator Form
+    function showAddOperatorForm() {
+        mainView.style.display = 'none';
+        addOperatorView.style.display = 'block';
+        backBtnPage.style.display = 'none'; // Hide back button in form view
+        
+        // Reset form
+        addOperatorForm.reset();
+        clearValidationErrors();
+    }
+
+    // Show Main View
+    function showMainView() {
+        mainView.style.display = 'block';
+        addOperatorView.style.display = 'none';
+        backBtnPage.style.display = 'flex'; // Show back button in main view
+    }
+
+    // Handle Back Button based on current view
+    function handleBackButton() {
+        if (addOperatorView.style.display === 'block') {
+            // If in add operator view, go back to main view
+            showMainView();
+        } else if (window.history.length > 1) {
+            // If in main view, go back in browser history
+            window.history.back();
+        } else {
+            alert("No previous page in history.");
+        }
+    }
+
+    // Show message for delete feature
+    function showDeleteMessage() {
+        operatorsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-tools"></i>
+                <h3>Feature Coming Soon</h3>
+                <p>The delete operator feature is currently under development.</p>
+                <p>This would connect to a DeleteOperatorServlet to remove the selected operator from the database.</p>
+            </div>
+        `;
+        
+        detailsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-user-minus"></i>
+                <h3>Delete Operator</h3>
+                <p>This feature would:</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li>Send a DELETE request to DeleteOperatorServlet</li>
+                    <li>Pass the operator ID as a parameter</li>
+                    <li>Execute DELETE SQL query</li>
+                    <li>Return success/failure response</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    // Show message for shifts feature
+    function showShiftsMessage() {
+        operatorsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Feature Coming Soon</h3>
+                <p>The view shift schedule feature is currently under development.</p>
+                <p>This would connect to a ShiftServlet to retrieve shift schedules for operators.</p>
+            </div>
+        `;
+        
+        detailsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-calendar-check"></i>
+                <h3>View Shift Schedules</h3>
+                <p>This feature would:</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li>Connect to ShiftServlet</li>
+                    <li>Retrieve shift schedules from database</li>
+                    <li>Display weekly/monthly schedules</li>
+                    <li>Allow shift swaps and time-off requests</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    // Show message for systems feature
+    function showSystemsMessage() {
+        operatorsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-desktop"></i>
+                <h3>Feature Coming Soon</h3>
+                <p>The view managed systems feature is currently under development.</p>
+                <p>This would connect to a SystemsServlet to retrieve systems managed by operators.</p>
+            </div>
+        `;
+        
+        detailsContainer.innerHTML = `
+            <div class="message-box">
+                <i class="fas fa-server"></i>
+                <h3>View Managed Systems</h3>
+                <p>This feature would:</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li>Connect to SystemsServlet</li>
+                    <li>Pass operator ID as parameter</li>
+                    <li>Retrieve systems from database</li>
+                    <li>Display systems with status and alerts</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    // Form Validation Functions
+    function validateFullName() {
+        const fullName = fullNameInput.value;
+        const errorElement = document.getElementById('fullNameError');
+        
+        if (!fullName || fullName.trim().length < 3) {
+            showError(errorElement, 'Please enter a valid name (minimum 3 characters)');
+            return false;
+        } else {
+            hideError(errorElement);
+            return true;
+        }
+    }
+
+    function validateEmail() {
+        const email = emailInput.value;
+        const errorElement = document.getElementById('emailError');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email || !emailPattern.test(email.trim())) {
+            showError(errorElement, 'Please enter a valid email address');
+            return false;
+        } else {
+            hideError(errorElement);
+            return true;
+        }
+    }
+
+    function validatePhone() {
+        const phone = phoneInput.value;
+        const errorElement = document.getElementById('phoneError');
+        
+        if (!phone) {
+            showError(errorElement, 'Please enter a phone number');
+            return false;
+        }
+        
+        const phoneDigits = phone.replace(/\D/g, '');
+        
+        if (phoneDigits.length < 10) {
+            showError(errorElement, 'Please enter a valid phone number (10 digits minimum)');
+            return false;
+        } else {
+            hideError(errorElement);
+            return true;
+        }
+    }
+
+    function validateDepartment() {
+        const department = departmentSelect.value;
+        const errorElement = document.getElementById('departmentError');
+        
+        if (!department) {
+            showError(errorElement, 'Please select a department');
+            return false;
+        } else {
+            hideError(errorElement);
+            return true;
+        }
+    }
+
+    function showError(errorElement, message) {
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+    }
+
+    function hideError(errorElement) {
+        errorElement.classList.remove('show');
+    }
+
+    function clearValidationErrors() {
+        const errorElements = document.querySelectorAll('.form-error');
+        errorElements.forEach(element => {
+            element.classList.remove('show');
+        });
+    }
+
+    // Validate and submit form - SUBMITS TO Add.java SERVLET
+    function validateAndSubmitForm(event) {
+        // Run all validations
+        const isFullNameValid = validateFullName();
+        const isEmailValid = validateEmail();
+        const isPhoneValid = validatePhone();
+        const isDepartmentValid = validateDepartment();
+        
+        // Check if all validations passed
+        if (isFullNameValid && isEmailValid && isPhoneValid && isDepartmentValid) {
+            // All validations passed - form will submit to Add.java servlet
+            // Optionally show a loading indicator
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            saveBtn.disabled = true;
+            
+            // Allow form to submit to Add.java servlet
+            return true;
+        } else {
+            // Prevent form submission if validation fails
+            event.preventDefault();
+            alert('Please fix the errors in the form before submitting.');
+            return false;
+        }
+    }
+
+    // Show operator details in the details panel
+    function showOperatorDetails(operatorData) {
+        const detailsContainer = document.getElementById('detailsContainer');
+        
+        detailsContainer.innerHTML = `
+            <div class="detail-section">
+                <h3>Personal Information</h3>
+                <div class="detail-row">
+                    <div class="detail-label">Full Name:</div>
+                    <div class="detail-value">${operatorData.name || operatorData.fullName}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">${operatorData.email}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone:</div>
+                    <div class="detail-value">${operatorData.phone}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Operator ID:</div>
+                    <div class="detail-value">${operatorData.id || 'N/A'}</div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Employment Details</h3>
+                <div class="detail-row">
+                    <div class="detail-label">Department:</div>
+                    <div class="detail-value">${operatorData.department}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Role:</div>
+                    <div class="detail-value">Operator</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date Added:</div>
+                    <div class="detail-value">${operatorData.dateAdded || 'N/A'}</div>
+                </div>
+            </div>
+        `;
+    }
+</script>
+</body>
+</html>

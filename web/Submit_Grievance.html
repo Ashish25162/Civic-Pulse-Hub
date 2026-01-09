@@ -94,12 +94,18 @@
             <pre>
             <select name="Department">
                 <option value="" selected>Select department your grievance is related to</option>
-                <option value="Transport">Transport</option>
+                <option value="Transportation">Transportation</option>
                 <option value="Sanitation">Sanitation</option>
-                <option value="Water">Water supply</option>
-                <option value="Garbage">Garbage</option>
-                <option value="Sewerage">Sewerage</option>
+                <option value="Water department">Water department</option>
+                <option value="Waste Management">Waste Management</option>
+<!--                <option value="Sewerage">Sewerage</option>-->
                 <option value="Electricity">Electricity</option>
+            </select>
+              <select name="priority">
+                <option value="" selected>Select priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
             </select>
             <input type="button" value="Get My Location" onclick="getLocation()">
             <div id="coordinates" style="margin-top:5px; font-style:italic;"></div>

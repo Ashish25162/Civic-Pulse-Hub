@@ -176,11 +176,6 @@
                 color: var(--secondary-color);
             }
 
-            .status-escalated {
-                background-color: #fce8e6;
-                color: var(--accent-color);
-            }
-
             .action-btns {
                 display: flex;
                 gap: 10px;
@@ -298,7 +293,7 @@
             }
             
             // Calculate statistics
-            int total = 0, submitted = 0, inProgress = 0, resolved = 0;
+            int total = 0, pending = 0, assigned = 0, resolved = 0;
         %>
         
         <div class="container">
@@ -322,7 +317,7 @@
                         Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/civic_pulse_hub", "root", "Ashu@@3450");
                         
                         // Get total count
-                        PreparedStatement ps1 = cn.prepareStatement("SELECT COUNT(*) as total FROM reports WHERE user_id = ?");
+                        PreparedStatement ps1 = cn.prepareStatement("SELECT COUNT(*) as total FROM reports WHERE User_id = ?");
                         ps1.setInt(1, userId);
                         ResultSet rs1 = ps1.executeQuery();
                         if (rs1.next()) {
@@ -332,11 +327,11 @@
                         ps1.close();
                         
                         // Get status counts
-                        String[] statuses = {"submitted", "in_progress", "resolved", "escalated"};
-                        int[] counts = new int[4];
+                        String[] statuses = {"pending", "assigned", "resolved"};
+                        int[] counts = new int[3];
                         
                         for (int i = 0; i < statuses.length; i++) {
-                            PreparedStatement ps2 = cn.prepareStatement("SELECT COUNT(*) as count FROM reports WHERE user_id = ? AND status = ?");
+                            PreparedStatement ps2 = cn.prepareStatement("SELECT COUNT(*) as count FROM reports WHERE User_id = ? AND Status = ?");
                             ps2.setInt(1, userId);
                             ps2.setString(2, statuses[i]);
                             ResultSet rs2 = ps2.executeQuery();
@@ -347,10 +342,9 @@
                             ps2.close();
                         }
                         
-                        submitted = counts[0];
-                        inProgress = counts[1];
+                        pending = counts[0];
+                        assigned = counts[1];
                         resolved = counts[2];
-                        int escalated = counts[3];
                         
                         cn.close();
                         
@@ -360,11 +354,11 @@
                     <div class="stat-label">Total Grievances</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number"><%= submitted %></div>
-                    <div class="stat-label">Submitted</div>
+                    <div class="stat-number"><%= pending %></div>
+                    <div class="stat-label">Pending</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number"><%= inProgress %></div>
+                    <div class="stat-number"><%= assigned %></div>
                     <div class="stat-label">In Progress</div>
                 </div>
                 <div class="stat-card">
@@ -396,7 +390,7 @@
                         Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/civic_pulse_hub", "root", "Ashu@@3450");
                         
                         // Make preparedstatement object
-                        PreparedStatement ps = cn.prepareStatement("SELECT * FROM reports WHERE user_id = ? ORDER BY created_at DESC");
+                        PreparedStatement ps = cn.prepareStatement("SELECT * FROM reports WHERE User_id = ? ORDER BY Created_at DESC");
                         ps.setInt(1, userId);
                         
                         // Execute the query
@@ -418,9 +412,9 @@
                 %>
                 <table border="1">
                     <tr>
-                        <th>User_id</th>
+                        <th>Grievance ID</th>
                         <th>Title</th>
-                        <th>Category</th>
+                        <th>Description</th>
                         <th>Submitted Date</th>
                         <th>Status</th>
                         <th>Priority</th>
@@ -428,41 +422,40 @@
                     </tr>
                 <%
                             while (rs.next()) {
-                                int id = rs.getInt("user_id");
-                                String grievanceId = rs.getString("report_id");
+                                int reportId = rs.getInt("Report_id");
                                 String title = rs.getString("title");
-                                String category = rs.getString("category_id");
-                                String status = rs.getString("status");
-                                String priority = rs.getString("priority");
-                                Date createdDate = rs.getDate("created_at");
+                                String desc = rs.getString("description");
+                                String status = rs.getString("Status");
+                                String priority = rs.getString("Priority");
+                                Date createdDate = rs.getDate("Created_at");
                                 
                                 // Format status for display
-                                String statusText = status != null ? status.replace("_", " ").toUpperCase() : "SUBMITTED";
+                                String statusText = status != null ? status.toUpperCase() : "PENDING";
                                 String statusClass = "";
                                 
                                 if (status != null) {
                                     switch(status.toLowerCase()) {
-                                        case "submitted":
+                                        case "pending":
                                             statusClass = "status-submitted";
                                             break;
-                                        case "in_progress":
+                                        case "assigned":
                                             statusClass = "status-in-progress";
                                             break;
                                         case "resolved":
                                             statusClass = "status-resolved";
                                             break;
-                                        case "escalated":
-                                            statusClass = "status-escalated";
-                                            break;
                                         default:
                                             statusClass = "status-submitted";
                                     }
                                 }
+                                
+                                // Format priority for display
+                                String priorityText = priority != null ? priority.toUpperCase() : "MEDIUM";
                 %>
                     <tr>
-                        <td><strong><%= grievanceId != null ? grievanceId : "CP-" + id %></strong></td>
+                        <td><strong>CP-<%= reportId %></strong></td>
                         <td><%= title %></td>
-                        <td><%= category %></td>
+                        <td><%= desc != null && desc.length() > 100 ? desc.substring(0, 100) + "..." : desc %></td>
                         <td><%= createdDate %></td>
                         <td>
                             <span class="status-badge <%= statusClass %>">
@@ -471,18 +464,18 @@
                         </td>
                         <td>
                             <span style="font-weight: 600; color: 
-                                <%= "High".equals(priority) ? "#e76f51" : 
-                                   "Medium".equals(priority) ? "#e9c46a" : "#4a9c7d" %>">
-                                <%= priority != null ? priority.toUpperCase() : "MEDIUM" %>
+                                <%= "high".equalsIgnoreCase(priority) || "critical".equalsIgnoreCase(priority) ? "#e76f51" : 
+                                   "medium".equalsIgnoreCase(priority) ? "#e9c46a" : "#4a9c7d" %>">
+                                <%= priorityText %>
                             </span>
                         </td>
                         <td>
                             <div class="action-btns">
-                                <a href="Grievance_Details.jsp?id=<%= id %>" class="action-btn">
+                                <a href="Grievance_Details.jsp?id=<%= reportId %>" class="action-btn">
                                     <i class="fas fa-eye"></i> View
                                 </a>
                                 <% if ("resolved".equalsIgnoreCase(status)) { %>
-                                <a href="Feedback.jsp?id=<%= id %>" class="action-btn">
+                                <a href="user_feedback.jsp?id=<%= reportId %>" class="action-btn">
                                     <i class="fas fa-star"></i> Feedback
                                 </a>
                                 <% } %>
@@ -515,7 +508,7 @@
                 tableRows.forEach(row => {
                     row.addEventListener('click', function(e) {
                         if (!e.target.closest('.action-btn')) {
-                            const id = this.querySelector('td:first-child strong').textContent;
+                            const id = this.querySelector('td:first-child strong').textContent.replace('CP-', '');
                             window.location.href = 'Grievance_Details.jsp?id=' + id;
                         }
                     });
@@ -531,23 +524,6 @@
                     }
                 }
             });
-            
-            // Simple filtering functionality
-            function filterTable() {
-                const statusFilter = document.getElementById('statusFilter');
-                const categoryFilter = document.getElementById('categoryFilter');
-                
-                if (statusFilter && categoryFilter) {
-                    // This is a basic implementation
-                    // For full functionality, you would need AJAX to reload filtered data
-                    alert('Filter functionality requires server-side implementation. Showing all results.');
-                }
-            }
-            
-            // Add basic print functionality
-            function printGrievances() {
-                window.print();
-            }
         </script>
     </body>
 </html>

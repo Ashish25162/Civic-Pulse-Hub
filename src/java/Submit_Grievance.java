@@ -39,6 +39,7 @@ public class Submit_Grievance extends HttpServlet {
             
             // Get form parameters
             String department = request.getParameter("Department"); 
+            String priority = request.getParameter("priority"); 
             String description = request.getParameter("Desc");
             String location = request.getParameter("Location");
             String latitude = request.getParameter("latitude");
@@ -98,7 +99,7 @@ public class Submit_Grievance extends HttpServlet {
             ps.setString(4, imagePath);
             ps.setString(5, location);
             ps.setString(6, "pending"); // Default status
-            ps.setString(7, "medium");  // Default priority
+            ps.setString(7, priority);  // Default priority
             ps.setString(8, latitude); // Set latitude
             ps.setString(9, longitude);// Set longitude
             
