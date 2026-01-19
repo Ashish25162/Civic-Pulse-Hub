@@ -567,7 +567,7 @@
             <div class="header">
                 <h1><i class="fas fa-tasks"></i> Assigned Tasks</h1>
                 <p>Welcome <%= operatorName %>! Here are all the reports assigned to you for resolution.</p>
-                <a href="operator_Dashboard.jsp" class="back-btn">
+                <a href="operator-Dashboard.jsp" class="back-btn">
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
             </div>

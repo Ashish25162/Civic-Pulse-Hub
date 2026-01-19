@@ -55,9 +55,7 @@ public class Gov_Login extends HttpServlet {
                 case "operator":
                     table = "operator";
                     break;
-                case "worker":
-                    table = "worker";
-                    break;
+                
                 default:
                     table = "";
             }
@@ -80,12 +78,15 @@ public class Gov_Login extends HttpServlet {
               gov_session.setAttribute("full_name", rs.getString("full_name"));
               gov_session.setAttribute("email", rs.getString("email"));
               gov_session.setAttribute("phone", rs.getString("phone"));
+              
 
 
 
             // Redirect to role
             switch (role) {
                 case "admin":
+                    gov_session = request.getSession(true);
+                    gov_session.setAttribute("created_at", rs.getString("created_at"));
                     response.sendRedirect("admin-dashboard.jsp");
                     break;
                 case "operator":

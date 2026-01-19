@@ -1,12 +1,15 @@
+<%@page import="java.time.LocalDateTime"%>
 <%@ page isELIgnored="true" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%
     // Get admin name from session
     HttpSession gov_session = request.getSession(false);
     String adminName = "Admin User"; // default
-    if (gov_session != null && gov_session.getAttribute("full_name") != null) {
+    
         adminName = (String) gov_session.getAttribute("full_name");
-    }
+        String adminEmail = (String) gov_session.getAttribute("email");
+       String  adminPhone = (String) gov_session.getAttribute("phone"); 
+       String dateString = (String) gov_session.getAttribute("created_at");    
     
     // Get initials for avatar
     String initials = "AD";
@@ -1012,7 +1015,7 @@
         <i class="fas fa-file-alt"></i>
         <span class="nav-text">Report Management</span>
     </a>
-    <a href="Grievance_History.jsp" class="nav-item">
+    <a href="" class="nav-item">
         <i class="fas fa-chart-bar"></i>
         <span class="nav-text">Analytics</span>
     </a>
@@ -1063,24 +1066,24 @@
                             <div class="dropdown-header">
                                 <div class="dropdown-avatar"><%= initials %></div>
                                 <h3><%= adminName %></h3>
-                                <p>Super Administrator</p>
+                                <p>Admin</p>
                                 <p style="margin-top: 5px; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px;">System Administration</p>
                             </div>
                             
                             <div class="dropdown-body">
                                 <div class="dropdown-info-item">
                                     <i class="fas fa-envelope"></i>
-                                    <span><strong>Email:</strong> admin@civicpulsehub.gov</span>
+                                    <span><strong>Email:</strong><%= adminEmail %></span>
                                 </div>
                                 <div class="dropdown-info-item">
                                     <i class="fas fa-phone"></i>
-                                    <span><strong>Phone:</strong> +1 (555) 123-4567</span>
+                                    <span><strong>Phone:</strong><%= adminPhone %></span>
                                 </div>
                                 <div class="dropdown-info-item">
                                     <i class="fas fa-calendar-alt"></i>
-                                    <span><strong>Member Since:</strong> January 15, 2023</span>
+                                    <span><strong>Member Since:</strong><%= dateString %></span>
                                 </div>
-                                <div class="dropdown-info-item">
+                                <div class="dropdown-info-item">    
                                     <i class="fas fa-user-shield"></i>
                                     <span><strong>Role:</strong> Full System Access</span>
                                 </div>
@@ -1106,9 +1109,9 @@
             </div>
             
             <div class="stats-container">
-                <a href="operators.jsp" class="stat-card stat-1">
+                <a href="Fetch.jsp" class="stat-card stat-1">
                     <div class="stat-info">
-                        <h3 id="operatorsCount">42</h3>
+                        <h3 id="operatorsCount">4</h3>
                         <p>Total Operators</p>
                     </div>
                     <div class="stat-icon">
@@ -1116,9 +1119,9 @@
                     </div>
                 </a>
                 
-                <a href="departments.jsp" class="stat-card stat-2">
+                <a href="" class="stat-card stat-2">
                     <div class="stat-info">
-                        <h3 id="departmentsCount">8</h3>
+                        <h3 id="departmentsCount">4</h3>
                         <p>Departments</p>
                     </div>
                     <div class="stat-icon">
@@ -1148,7 +1151,7 @@
             </div>
             
             <div class="features-container">
-                <a href="operators.jsp" class="feature-card feature-1">
+                <a href="operators.html" class="feature-card feature-1">
                     <div class="feature-header">
                         <div class="feature-icon">
                             <i class="fas fa-users-cog"></i>
@@ -1158,7 +1161,7 @@
                     <p>Manage all operators, assign departments, track performance, and monitor complaint resolution rates across different departments.</p>
                     <div class="feature-footer">
                         <div class="feature-stats">
-                            <span id="activeOperators">36</span> active operators
+                            <span id="activeOperators"></span> 
                         </div>
                         <div class="feature-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -1176,7 +1179,7 @@
                     <p>Organize departments, assign resources, set department-specific workflows, and monitor inter-department coordination.</p>
                     <div class="feature-footer">
                         <div class="feature-stats">
-                            <span id="totalDepartments">8</span> departments
+                            <span id="totalDepartments">4</span> departments
                         </div>
                         <div class="feature-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -1184,7 +1187,7 @@
                     </div>
                 </a>
                 
-                <a href="Grievance_History.jsp" class="feature-card feature-3">
+                <a href="AnalyticsServlet.java" class="feature-card feature-3">
                     <div class="feature-header">
                         <div class="feature-icon">
                             <i class="fas fa-chart-line"></i>
@@ -1194,7 +1197,7 @@
                     <p>Generate detailed reports, analyze performance metrics, track resolution times, and identify bottlenecks in the complaint resolution process.</p>
                     <div class="feature-footer">
                         <div class="feature-stats">
-                            <span id="reportsGenerated">24</span> reports this month
+                            <span id="reportsGenerated"></span> 
                         </div>
                         <div class="feature-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -1202,7 +1205,7 @@
                     </div>
                 </a>
                 
-                <a href="analytics.jsp" class="feature-card feature-4">
+                <a href="Report_management.jsp" class="feature-card feature-4">
                     <div class="feature-header">
                         <div class="feature-icon">
                             <i class="fas fa-tasks"></i>
@@ -1212,7 +1215,7 @@
                     <p>Assign and monitor tasks, track completion status, and ensure timely resolution of issues across all departments.</p>
                     <div class="feature-footer">
                         <div class="feature-stats">
-                            <span id="activeTasks">156</span> active tasks
+                            <span id="activeTasks"></span> 
                         </div>
                         <div class="feature-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -1221,30 +1224,131 @@
                 </a>
             </div>
             
-            <div class="charts-section">
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>Department Performance</h3>
-                        <select id="performanceFilter" class="form-control" style="width: auto;">
-                            <option value="monthly">This Month</option>
-                            <option value="quarterly">This Quarter</option>
-                            <option value="yearly">This Year</option>
-                        </select>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="performanceChart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>Complaint Resolution Time</h3>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="resolutionChart"></canvas>
-                    </div>
-                </div>
+            <!-- Add this to head section for Chart.js and HeatMap -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.0.0/dist/chartjs-chart-geo.min.js"></script>
+
+<!-- Replace the entire charts-section div with this: -->
+<div class="charts-section">
+    <!-- Category-wise Complaints (Pie Chart) -->
+    <div class="chart-container">
+        <div class="chart-header">
+            <h3>Complaints by Category</h3>
+            <select id="categoryFilter" class="form-control" style="width: auto;" onchange="loadCategoryChart()">
+                <option value="all">All Time</option>
+                <option value="month">This Month</option>
+                <option value="week">This Week</option>
+            </select>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+    
+    <!-- Zone-wise Complaints (Heat Map) -->
+    <div class="chart-container">
+        <div class="chart-header">
+            <h3>Zone-wise Complaints (Heat Map)</h3>
+            <div class="legend" style="display: flex; align-items: center; gap: 10px; font-size: 12px;">
+                <span style="display: inline-block; width: 15px; height: 15px; background-color: #FF0000;"></span> High
+                <span style="display: inline-block; width: 15px; height: 15px; background-color: #FFA500;"></span> Medium
+                <span style="display: inline-block; width: 15px; height: 15px; background-color: #FFFF00;"></span> Low
             </div>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="zoneHeatMap"></canvas>
+        </div>
+        <div id="zoneDetails" style="margin-top: 15px; font-size: 14px;"></div>
+    </div>
+</div>
+
+<div class="charts-section">
+    <!-- SLA Performance (Bar Chart) -->
+    <div class="chart-container">
+        <div class="chart-header">
+            <h3>SLA Performance</h3>
+            <div class="sla-legend" style="display: flex; gap: 15px; font-size: 12px;">
+                <span><span style="color: #00a86b;">?</span> SLA Met</span>
+                <span><span style="color: #e74c3c;">?</span> SLA Violated</span>
+            </div>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="slaChart"></canvas>
+        </div>
+        <div id="slaSummary" style="margin-top: 15px; text-align: center; font-weight: 500;"></div>
+    </div>
+    
+    <!-- Red Zones Report -->
+    <div class="chart-container">
+        <div class="chart-header">
+            <h3>Red Zone Areas</h3>
+            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 12px;" onclick="refreshRedZones()">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        <div class="chart-wrapper" style="height: 300px; overflow-y: auto;">
+            <table class="redzone-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 10px; text-align: left;">Zone</th>
+                        <th style="padding: 10px; text-align: center;">Complaints</th>
+                        <th style="padding: 10px; text-align: center;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="redZonesBody">
+                    <!-- Red zones will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 15px; font-size: 12px; color: #666;">
+            <i class="fas fa-info-circle"></i> Red zones have 3+ unresolved complaints
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats Section -->
+<div class="stats-container">
+    <!-- Update your existing stats cards to use dynamic data -->
+    <div class="stat-card stat-1">
+        <div class="stat-info">
+            <h3 id="totalComplaints">0</h3>
+            <p>Total Complaints</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-file-alt"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-2">
+        <div class="stat-info">
+            <h3 id="pendingComplaints">0</h3>
+            <p>Pending Complaints</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-3">
+        <div class="stat-info">
+            <h3 id="resolvedComplaints">0</h3>
+            <p>Resolved Complaints</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-4">
+        <div class="stat-info">
+            <h3 id="slaRate">0%</h3>
+            <p>SLA Compliance</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+    </div>
+</div>
             
             <div class="quick-actions">
                 <h3>Quick Actions</h3>
@@ -1277,7 +1381,7 @@
         </div>
     </div>
 
-    <script>
+<!--    <script>
         function initializeCharts() {
             const performanceCtx = document.getElementById('performanceChart').getContext('2d');
             const departments = ['Roads', 'Water', 'Waste', 'Parks', 'Electricity', 'Health', 'Education', 'Housing'];
@@ -1444,6 +1548,1162 @@
                 alert('Report generation started.');
             });
         });
-    </script>
+    </script>-->
+
+
+
+<!--<script>
+// Global chart instances
+let categoryChartInstance = null;
+let zoneHeatMapInstance = null;
+let slaChartInstance = null;
+
+// Load all charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboardStats();
+    loadCategoryChart();
+    loadZoneHeatMap();
+    loadSLAChart();
+    loadRedZones();
+    populateRecentActivities();
+    setupProfileDropdown();
+});
+
+// 1. Load Dashboard Statistics
+function loadDashboardStats() {
+    fetch('analytics?type=stats')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('totalComplaints').textContent = data.total_complaints || 0;
+            document.getElementById('pendingComplaints').textContent = data.pending_complaints || 0;
+            document.getElementById('resolvedComplaints').textContent = data.resolved_complaints || 0;
+            document.getElementById('slaRate').textContent = 
+                (data.sla_compliance_rate ? data.sla_compliance_rate.toFixed(1) : '0') + '%';
+            
+            // Update other stats if needed
+            document.getElementById('issuesResolved').textContent = data.resolved_complaints || 0;
+            document.getElementById('pendingIssues').textContent = data.pending_complaints || 0;
+        })
+        .catch(error => console.error('Error loading stats:', error));
+}
+
+// 2. Category-wise Complaints Pie Chart
+function loadCategoryChart() {
+    fetch('analytics?type=category')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            
+            // Destroy previous chart if exists
+            if (categoryChartInstance) {
+                categoryChartInstance.destroy();
+            }
+            
+            categoryChartInstance = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.categories,
+                    datasets: [{
+                        data: data.counts,
+                        backgroundColor: data.colors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error loading category chart:', error));
+}
+
+// 3. Zone-wise Complaints Heat Map
+function loadZoneHeatMap() {
+    fetch('analytics?type=zone')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('zoneHeatMap').getContext('2d');
+            
+            // Prepare heat map data
+            const zoneData = {
+                labels: data.zones,
+                datasets: [{
+                    label: 'Complaint Intensity',
+                    data: data.complaints.map((count, index) => ({
+                        x: data.zones[index],
+                        y: count,
+                        intensity: data.intensities[index]
+                    })),
+                    backgroundColor: function(context) {
+                        const value = context.dataset.data[context.dataIndex].intensity;
+                        // Red to Green gradient based on intensity
+                        if (value > 0.7) return '#FF0000'; // Red
+                        if (value > 0.4) return '#FFA500'; // Orange
+                        if (value > 0.2) return '#FFFF00'; // Yellow
+                        return '#00FF00'; // Green
+                    },
+                    borderWidth: 1,
+                    borderColor: '#333'
+                }]
+            };
+            
+            // Destroy previous chart if exists
+            if (zoneHeatMapInstance) {
+                zoneHeatMapInstance.destroy();
+            }
+            
+            zoneHeatMapInstance = new Chart(ctx, {
+                type: 'bar',
+                data: zoneData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const zone = context.label;
+                                    const count = context.raw.y;
+                                    const intensity = (context.raw.intensity * 100).toFixed(1);
+                                    return `${zone}: ${count} complaints (${intensity}% intensity)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Zones'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Update zone details
+            let zoneDetails = '<strong>Zone Analysis:</strong><br>';
+            for (let i = 0; i < data.zones.length; i++) {
+                zoneDetails += `${data.zones[i]}: ${data.complaints[i]} complaints<br>`;
+            }
+            document.getElementById('zoneDetails').innerHTML = zoneDetails;
+        })
+        .catch(error => console.error('Error loading zone heat map:', error));
+}
+
+// 4. SLA Performance Bar Chart
+function loadSLAChart() {
+    fetch('analytics?type=sla')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('slaChart').getContext('2d');
+            
+            // Destroy previous chart if exists
+            if (slaChartInstance) {
+                slaChartInstance.destroy();
+            }
+            
+            slaChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.priorities,
+                    datasets: [
+                        {
+                            label: 'SLA Met',
+                            data: data.sla_met,
+                            backgroundColor: '#00a86b',
+                            borderWidth: 1,
+                            borderColor: '#007a52'
+                        },
+                        {
+                            label: 'SLA Violated',
+                            data: data.sla_violated,
+                            backgroundColor: '#e74c3c',
+                            borderWidth: 1,
+                            borderColor: '#c0392b'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const datasetLabel = context.dataset.label;
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    return `${datasetLabel}: ${value}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Priority Levels'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Calculate and display SLA summary
+            const totalMet = data.sla_met.reduce((a, b) => a + b, 0);
+            const totalViolated = data.sla_violated.reduce((a, b) => a + b, 0);
+            const total = totalMet + totalViolated;
+            const complianceRate = total > 0 ? ((totalMet / total) * 100).toFixed(1) : 100;
+            
+            document.getElementById('slaSummary').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px;">
+                    <strong>SLA Compliance: ${complianceRate}%</strong><br>
+                    <small>${totalMet} met / ${totalViolated} violated out of ${total} resolved complaints</small>
+                </div>
+            `;
+        })
+        .catch(error => console.error('Error loading SLA chart:', error));
+}
+
+// 5. Load Red Zones
+function loadRedZones() {
+    fetch('analytics?type=redzones')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('redZonesBody');
+            tbody.innerHTML = '';
+            
+            if (data.red_zones && data.red_zones.length > 0) {
+                data.red_zones.forEach(zone => {
+                    const row = document.createElement('tr');
+                    row.style.borderBottom = '1px solid #eee';
+                    
+                    // Determine color based on complaint count
+                    let statusColor = '#e74c3c'; // Red
+                    let statusText = 'Critical';
+                    if (zone.complaint_count < 5) {
+                        statusColor = '#f39c12'; // Orange
+                        statusText = 'High';
+                    } else if (zone.complaint_count < 3) {
+                        statusColor = '#f1c40f'; // Yellow
+                        statusText = 'Medium';
+                    }
+                    
+                    row.innerHTML = `
+                        <td style="padding: 10px;">
+                            <strong>${zone.zone}</strong><br>
+                            <small style="color: #666;">Last: ${zone.last_complaint}</small>
+                        </td>
+                        <td style="padding: 10px; text-align: center;">
+                            <span style="font-size: 18px; font-weight: bold;">${zone.complaint_count}</span>
+                        </td>
+                        <td style="padding: 10px; text-align: center;">
+                            <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; 
+                                  background-color: ${statusColor}; color: white; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="padding: 20px; text-align: center; color: #666;">
+                            <i class="fas fa-check-circle" style="color: #00a86b;"></i><br>
+                            No red zones detected. All areas are within acceptable limits.
+                        </td>
+                    </tr>
+                `;
+            }
+        })
+        .catch(error => console.error('Error loading red zones:', error));
+}
+
+// Refresh function for red zones
+function refreshRedZones() {
+    loadRedZones();
+}
+
+// Auto-refresh charts every 5 minutes
+setInterval(() => {
+    loadDashboardStats();
+    loadCategoryChart();
+    loadZoneHeatMap();
+    loadSLAChart();
+}, 300000); // 5 minutes
+
+
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const dropdownBtn = document.getElementById('profileDropdownBtn');
+    const dropdownMenu = document.getElementById('profileDropdownMenu');
+    
+    if (dropdownBtn && dropdownMenu) {
+        // Toggle dropdown when profile button is clicked
+        dropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+            dropdownBtn.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                dropdownBtn.classList.remove('active');
+            }
+        });
+        
+        // Handle Edit Profile button click
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdownMenu.classList.remove('show');
+                dropdownBtn.classList.remove('active');
+                showEditProfileModal();
+            });
+        }
+        
+        // Handle logout forms
+        const logoutForms = document.querySelectorAll('#sidebarLogoutForm, #dropdownLogoutForm button[type="submit"]');
+        logoutForms.forEach(form => {
+            form.addEventListener('click', (e) => {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Allow form submission
+                } else {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+}
+
+// Show Edit Profile Modal
+function showEditProfileModal() {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('editProfileModal');
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'editProfileModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Profile</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" id="editFullName" value="<%= adminName %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" class="form-control" id="editEmail" value="admin@civicpulsehub.gov">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" class="form-control" id="editPhone" value="+1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" class="form-control" id="newPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPassword">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="cancelEditProfile">Cancel</button>
+                    <button class="btn btn-primary" id="saveProfileChanges">Save Changes</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Add close functionality
+        const closeBtn = modal.querySelector('.close-btn');
+        const cancelBtn = modal.querySelector('#cancelEditProfile');
+        const saveBtn = modal.querySelector('#saveProfileChanges');
+        
+        const closeModal = () => {
+            modal.style.display = 'none';
+        };
+        
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        
+        saveBtn.addEventListener('click', () => {
+            const fullName = document.getElementById('editFullName').value;
+            const email = document.getElementById('editEmail').value;
+            const phone = document.getElementById('editPhone').value;
+            
+            // In a real application, you would make an AJAX call here
+            alert('Profile updated successfully! In a real application, this would save to the server.');
+            
+            // Update the displayed name
+            document.querySelector('.profile-info h4').textContent = fullName;
+            document.querySelector('.profile-info-small h4').textContent = fullName;
+            document.querySelector('.dropdown-header h3').textContent = fullName;
+            
+            // Update email and phone in dropdown
+            document.querySelector('.dropdown-info-item:nth-child(1) span').innerHTML = `<strong>Email:</strong> ${email}`;
+            document.querySelector('.dropdown-info-item:nth-child(2) span').innerHTML = `<strong>Phone:</strong> ${phone}`;
+            
+            // Update initials if name changed
+            updateInitials(fullName);
+            
+            closeModal();
+        });
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+    
+    // Show the modal
+    modal.style.display = 'flex';
+}
+
+// Function to update initials based on name
+function updateInitials(fullName) {
+    let initials = "AD";
+    if (fullName && !fullName.trim().isEmpty()) {
+        const nameParts = fullName.split(" ");
+        if (nameParts.length >= 2) {
+            initials = String(nameParts[0].charAt(0)) + nameParts[1].charAt(0);
+        } else if (nameParts.length == 1 && nameParts[0].length >= 2) {
+            initials = nameParts[0].substring(0, 2).toUpperCase();
+        }
+    }
+    
+    // Update all instances of initials
+    const allInitials = document.querySelectorAll('.profile-img, .profile-avatar-small, .dropdown-avatar');
+    allInitials.forEach(element => {
+        element.textContent = initials;
+    });
+}
+
+// Make sure to call setupProfileDropdown in your DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', function() {
+    // ... your existing code ...
+    
+    loadDashboardStats();
+    loadCategoryChart();
+    loadZoneHeatMap();
+    loadSLAChart();
+    loadRedZones();
+    populateRecentActivities();
+    setupProfileDropdown(); // ADD THIS LINE
+    
+    document.getElementById('generateReportBtn').addEventListener('click', () => {
+        alert('Report generation started.');
+    });
+    
+    // ... rest of your code ...
+});
+</script>-->
+
+
+<script>
+// Global chart instances
+let categoryChartInstance = null;
+let zoneHeatMapInstance = null;
+let slaChartInstance = null;
+
+// Populate recent activities
+function populateRecentActivities() {
+    const recentActivities = [
+        {
+            type: 'add',
+            title: 'New Operator Added',
+            description: 'John Smith added to Roads & Transportation department',
+            time: '10 minutes ago'
+        },
+        {
+            type: 'update',
+            title: 'Operator Status Updated',
+            description: 'Michael Brown assigned to Water Supply department',
+            time: '2 hours ago'
+        },
+        {
+            type: 'update',
+            title: 'Department Updated',
+            description: 'New workflow added to Sanitation department',
+            time: '5 hours ago'
+        }
+    ];
+
+    const activityList = document.getElementById('activityList');
+    if (activityList) {
+        activityList.innerHTML = '';
+
+        recentActivities.forEach(activity => {
+            const activityItem = document.createElement('li');
+            activityItem.className = 'activity-item';
+            
+            let iconClass = '';
+            let iconSymbol = '';
+            
+            switch(activity.type) {
+                case 'add': 
+                    iconClass = 'activity-add';
+                    iconSymbol = 'fa-user-plus';
+                    break;
+                case 'update': 
+                    iconClass = 'activity-update';
+                    iconSymbol = 'fa-edit';
+                    break;
+            }
+
+            activityItem.innerHTML = `
+                <div class="activity-icon ${iconClass}">
+                    <i class="fas ${iconSymbol}"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>${activity.title}</h4>
+                    <p>${activity.description}</p>
+                    <div class="activity-time">${activity.time}</div>
+                </div>
+            `;
+            
+            activityList.appendChild(activityItem);
+        });
+    }
+}
+
+// Profile Dropdown Functionality
+function setupProfileDropdown() {
+    const dropdownBtn = document.getElementById('profileDropdownBtn');
+    const dropdownMenu = document.getElementById('profileDropdownMenu');
+    
+    console.log('setupProfileDropdown called'); // Debug
+    console.log('dropdownBtn:', dropdownBtn); // Debug
+    console.log('dropdownMenu:', dropdownMenu); // Debug
+    
+    if (dropdownBtn && dropdownMenu) {
+        // Toggle dropdown when profile button is clicked
+        dropdownBtn.addEventListener('click', (e) => {
+            console.log('Profile button clicked'); // Debug
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+            dropdownBtn.classList.toggle('active');
+        });
+        
+        // Handle Edit Profile button click
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropdownMenu.classList.remove('show');
+                dropdownBtn.classList.remove('active');
+                alert('Edit profile feature would open a modal in a real implementation.');
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                dropdownBtn.classList.remove('active');
+            }
+        });
+    } else {
+        console.error('Profile dropdown elements not found!');
+    }
+}
+
+// Load all charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded - Starting initialization'); // Debug
+    loadDashboardStats();
+    loadCategoryChart();
+    loadZoneHeatMap();
+    loadSLAChart();
+    loadRedZones();
+    populateRecentActivities();
+    setupProfileDropdown(); // This should now work
+    
+    document.getElementById('generateReportBtn')?.addEventListener('click', () => {
+        alert('Report generation started.');
+    });
+    
+    console.log('DOMContentLoaded - Initialization complete'); // Debug
+});
+
+// 1. Load Dashboard Statistics
+function loadDashboardStats() {
+    fetch('analytics?type=stats')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('totalComplaints').textContent = data.total_complaints || 0;
+            document.getElementById('pendingComplaints').textContent = data.pending_complaints || 0;
+            document.getElementById('resolvedComplaints').textContent = data.resolved_complaints || 0;
+            document.getElementById('slaRate').textContent = 
+                (data.sla_compliance_rate ? data.sla_compliance_rate.toFixed(1) : '0') + '%';
+            
+            // Update other stats if needed
+            document.getElementById('issuesResolved').textContent = data.resolved_complaints || 0;
+            document.getElementById('pendingIssues').textContent = data.pending_complaints || 0;
+        })
+        .catch(error => console.error('Error loading stats:', error));
+}
+
+// 2. Category-wise Complaints Pie Chart
+function loadCategoryChart() {
+    fetch('analytics?type=category')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            
+            // Destroy previous chart if exists
+            if (categoryChartInstance) {
+                categoryChartInstance.destroy();
+            }
+            
+            categoryChartInstance = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.categories || ['Roads', 'Water', 'Waste', 'Parks'],
+                    datasets: [{
+                        data: data.counts || [25, 20, 15, 10],
+                        backgroundColor: data.colors || ['#2a5bd7', '#00a86b', '#ff6b35', '#8e44ad'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error loading category chart:', error);
+            // Fallback to static data
+            createFallbackCategoryChart();
+        });
+}
+
+function createFallbackCategoryChart() {
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    
+    if (categoryChartInstance) {
+        categoryChartInstance.destroy();
+    }
+    
+    categoryChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Road Maintenance', 'Water Supply', 'Sanitation', 'Electricity', 'Public Parks'],
+            datasets: [{
+                data: [25, 20, 15, 18, 12],
+                backgroundColor: ['#2a5bd7', '#00a86b', '#ff6b35', '#8e44ad', '#3498db'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+}
+
+// 3. Zone-wise Complaints Heat Map
+function loadZoneHeatMap() {
+    fetch('analytics?type=zone')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('zoneHeatMap').getContext('2d');
+            
+            // Prepare heat map data
+            const zones = data.zones || ['North', 'South', 'East', 'West', 'Central'];
+            const complaints = data.complaints || [45, 32, 28, 51, 39];
+            const intensities = data.intensities || [0.8, 0.6, 0.5, 0.9, 0.7];
+            
+            const zoneData = {
+                labels: zones,
+                datasets: [{
+                    label: 'Complaint Intensity',
+                    data: complaints.map((count, index) => ({
+                        x: zones[index],
+                        y: count,
+                        intensity: intensities[index]
+                    })),
+                    backgroundColor: function(context) {
+                        const value = context.dataset.data[context.dataIndex].intensity;
+                        // Red to Green gradient based on intensity
+                        if (value > 0.7) return '#FF0000'; // Red
+                        if (value > 0.4) return '#FFA500'; // Orange
+                        if (value > 0.2) return '#FFFF00'; // Yellow
+                        return '#00FF00'; // Green
+                    },
+                    borderWidth: 1,
+                    borderColor: '#333'
+                }]
+            };
+            
+            // Destroy previous chart if exists
+            if (zoneHeatMapInstance) {
+                zoneHeatMapInstance.destroy();
+            }
+            
+            zoneHeatMapInstance = new Chart(ctx, {
+                type: 'bar',
+                data: zoneData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const zone = context.label;
+                                    const count = context.raw.y;
+                                    const intensity = (context.raw.intensity * 100).toFixed(1);
+                                    return `${zone}: ${count} complaints (${intensity}% intensity)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Zones'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Update zone details
+            let zoneDetails = '<strong>Zone Analysis:</strong><br>';
+            for (let i = 0; i < zones.length; i++) {
+                zoneDetails += `${zones[i]}: ${complaints[i]} complaints<br>`;
+            }
+            document.getElementById('zoneDetails').innerHTML = zoneDetails;
+        })
+        .catch(error => {
+            console.error('Error loading zone heat map:', error);
+            createFallbackZoneHeatMap();
+        });
+}
+
+function createFallbackZoneHeatMap() {
+    const ctx = document.getElementById('zoneHeatMap').getContext('2d');
+    
+    if (zoneHeatMapInstance) {
+        zoneHeatMapInstance.destroy();
+    }
+    
+    const zones = ['North', 'South', 'East', 'West', 'Central'];
+    const complaints = [45, 32, 28, 51, 39];
+    
+    zoneHeatMapInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: zones,
+            datasets: [{
+                label: 'Complaints',
+                data: complaints,
+                backgroundColor: ['#FF0000', '#FFA500', '#FFFF00', '#FF0000', '#FFA500'],
+                borderWidth: 1,
+                borderColor: '#333'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Complaints'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Zones'
+                    }
+                }
+            }
+        }
+    });
+    
+    document.getElementById('zoneDetails').innerHTML = '<strong>Zone Analysis:</strong><br>North: 45<br>South: 32<br>East: 28<br>West: 51<br>Central: 39';
+}
+
+// 4. SLA Performance Bar Chart
+function loadSLAChart() {
+    fetch('analytics?type=sla')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('slaChart').getContext('2d');
+            
+            // Destroy previous chart if exists
+            if (slaChartInstance) {
+                slaChartInstance.destroy();
+            }
+            
+            slaChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.priorities || ['High', 'Medium', 'Low'],
+                    datasets: [
+                        {
+                            label: 'SLA Met',
+                            data: data.sla_met || [85, 120, 95],
+                            backgroundColor: '#00a86b',
+                            borderWidth: 1,
+                            borderColor: '#007a52'
+                        },
+                        {
+                            label: 'SLA Violated',
+                            data: data.sla_violated || [15, 30, 25],
+                            backgroundColor: '#e74c3c',
+                            borderWidth: 1,
+                            borderColor: '#c0392b'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const datasetLabel = context.dataset.label;
+                                    const value = context.raw;
+                                    return `${datasetLabel}: ${value}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Priority Levels'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Calculate and display SLA summary
+            const slaMet = data.sla_met || [85, 120, 95];
+            const slaViolated = data.sla_violated || [15, 30, 25];
+            const totalMet = slaMet.reduce((a, b) => a + b, 0);
+            const totalViolated = slaViolated.reduce((a, b) => a + b, 0);
+            const total = totalMet + totalViolated;
+            const complianceRate = total > 0 ? ((totalMet / total) * 100).toFixed(1) : 100;
+            
+            document.getElementById('slaSummary').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px;">
+                    <strong>SLA Compliance: ${complianceRate}%</strong><br>
+                    <small>${totalMet} met / ${totalViolated} violated out of ${total} resolved complaints</small>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error loading SLA chart:', error);
+            createFallbackSLAChart();
+        });
+}
+
+function createFallbackSLAChart() {
+    const ctx = document.getElementById('slaChart').getContext('2d');
+    
+    if (slaChartInstance) {
+        slaChartInstance.destroy();
+    }
+    
+    slaChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [
+                {
+                    label: 'SLA Met',
+                    data: [85, 120, 95],
+                    backgroundColor: '#00a86b',
+                    borderWidth: 1,
+                    borderColor: '#007a52'
+                },
+                {
+                    label: 'SLA Violated',
+                    data: [15, 30, 25],
+                    backgroundColor: '#e74c3c',
+                    borderWidth: 1,
+                    borderColor: '#c0392b'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.raw}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Priority Levels'
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Complaints'
+                    }
+                }
+            }
+        }
+    });
+    
+    document.getElementById('slaSummary').innerHTML = `
+        <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px;">
+            <strong>SLA Compliance: 78.2%</strong><br>
+            <small>300 met / 70 violated out of 370 resolved complaints</small>
+        </div>
+    `;
+}
+
+// 5. Load Red Zones
+function loadRedZones() {
+    fetch('analytics?type=redzones')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('redZonesBody');
+            tbody.innerHTML = '';
+            
+            const redZones = data.red_zones || [
+                { zone: 'West Zone', complaint_count: 8, last_complaint: '2 hours ago' },
+                { zone: 'North Zone', complaint_count: 5, last_complaint: '5 hours ago' },
+                { zone: 'Central Zone', complaint_count: 4, last_complaint: '1 day ago' }
+            ];
+            
+            if (redZones.length > 0) {
+                redZones.forEach(zone => {
+                    const row = document.createElement('tr');
+                    row.style.borderBottom = '1px solid #eee';
+                    
+                    // Determine color based on complaint count
+                    let statusColor = '#e74c3c'; // Red
+                    let statusText = 'Critical';
+                    if (zone.complaint_count < 5) {
+                        statusColor = '#f39c12'; // Orange
+                        statusText = 'High';
+                    } else if (zone.complaint_count < 3) {
+                        statusColor = '#f1c40f'; // Yellow
+                        statusText = 'Medium';
+                    }
+                    
+                    row.innerHTML = `
+                        <td style="padding: 10px;">
+                            <strong>${zone.zone}</strong><br>
+                            <small style="color: #666;">Last: ${zone.last_complaint}</small>
+                        </td>
+                        <td style="padding: 10px; text-align: center;">
+                            <span style="font-size: 18px; font-weight: bold;">${zone.complaint_count}</span>
+                        </td>
+                        <td style="padding: 10px; text-align: center;">
+                            <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; 
+                                  background-color: ${statusColor}; color: white; font-size: 12px;">
+                                ${statusText}
+                            </span>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="padding: 20px; text-align: center; color: #666;">
+                            <i class="fas fa-check-circle" style="color: #00a86b;"></i><br>
+                            No red zones detected. All areas are within acceptable limits.
+                        </td>
+                    </tr>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading red zones:', error);
+            createFallbackRedZones();
+        });
+}
+
+function createFallbackRedZones() {
+    const tbody = document.getElementById('redZonesBody');
+    tbody.innerHTML = `
+        <tr>
+            <td style="padding: 10px;">
+                <strong>West Zone</strong><br>
+                <small style="color: #666;">Last: 2 hours ago</small>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="font-size: 18px; font-weight: bold;">8</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; 
+                      background-color: #e74c3c; color: white; font-size: 12px;">
+                    Critical
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px;">
+                <strong>North Zone</strong><br>
+                <small style="color: #666;">Last: 5 hours ago</small>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="font-size: 18px; font-weight: bold;">5</span>
+            </td>
+            <td style="padding: 10px; text-align: center;">
+                <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; 
+                      background-color: #f39c12; color: white; font-size: 12px;">
+                    High
+                </span>
+            </td>
+        </tr>
+    `;
+}
+
+// Refresh function for red zones
+function refreshRedZones() {
+    loadRedZones();
+}
+
+// Auto-refresh charts every 5 minutes
+setInterval(() => {
+    loadDashboardStats();
+    loadCategoryChart();
+    loadZoneHeatMap();
+    loadSLAChart();
+}, 300000); // 5 minutes
+
+</script>
 </body>
 </html>

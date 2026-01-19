@@ -69,52 +69,9 @@
                     "Ashu@@3450"
                 );
                 
-                // ========== WORKERS SECTION ==========
         %>
         
-        <div class="category-label">Workers</div>
-        <h2>All Workers</h2>
-        <table>
-            <tr>
-                <th>Worker ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Department</th>
-                <th>Joined At</th>
-            </tr>
-            
-        <%
-                // Make preparedstatement object for workers
-                PreparedStatement psWorkers = cn.prepareStatement("SELECT * FROM worker");
-                
-                // Execute the query for workers
-                ResultSet rsWorkers = psWorkers.executeQuery();
-                
-                while(rsWorkers.next()) {
-                    String worker_id = rsWorkers.getString(1);
-                    String name = rsWorkers.getString(2);
-                    String email = rsWorkers.getString(3);
-                    String phone = rsWorkers.getString(4);
-                    String department = rsWorkers.getString(6); 
-                    String created_at = rsWorkers.getString(7); 
-        %>
-                <tr>
-                    <td><%= worker_id %></td>
-                    <td><%= name %></td>
-                    <td><%= email %></td>
-                    <td><%= phone %></td>
-                    <td><%= department %></td>
-                    <td><%= created_at %></td>
-                </tr>
-        <%
-                }
-                
-                // Close workers result set and statement
-                rsWorkers.close();
-                psWorkers.close();
-        %>
-        </table>
+       
         
         <%
                 // ========== OPERATORS SECTION ==========

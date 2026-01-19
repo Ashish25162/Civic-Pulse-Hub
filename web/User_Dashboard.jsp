@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 <%@page import="jakarta.servlet.http.HttpSession"%>
 <%
     // Check if user is logged in
@@ -1403,8 +1404,74 @@
                 <div class="stats-container">
                     <div class="stat-card submitted">
                         <div class="stat-header">
+ <%
+  int user_id = (int) userSession.getAttribute("user_id");
+  String dbUrl = "jdbc:mysql://localhost:3306/civic_pulse_hub";
+  String dbUser = "root";
+  String dbPassword = "Ashu@@3450";
+  
+  Connection cn = null;
+  PreparedStatement ps = null;
+  ResultSet rs = null;
+  
+  int totalReports = 0;
+  int totalReports1 = 0;
+  int totalReports2 = 0;
+  
+  try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    cn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    
+    // Query 1: Total reports
+    String sql = "SELECT COUNT(*) AS total_reports FROM reports WHERE user_id = ?";
+    ps = cn.prepareStatement(sql);
+    ps.setInt(1, user_id);
+    rs = ps.executeQuery();
+    
+    if (rs.next()) {
+        totalReports = rs.getInt("total_reports");
+    }
+    rs.close();
+    ps.close();
+    
+    // Query 2: Pending reports
+    String sql1 = "SELECT COUNT(*) AS total_reports1 FROM reports WHERE user_id = ? AND status = 'pending'";
+    ps = cn.prepareStatement(sql1);
+    ps.setInt(1, user_id);
+    rs = ps.executeQuery();
+    
+    if (rs.next()) {
+        totalReports1 = rs.getInt("total_reports1");
+    }
+    rs.close();
+    ps.close();
+    
+    // Query 3: Resolved reports
+    String sql2 = "SELECT COUNT(*) AS total_reports2 FROM reports WHERE user_id = ? AND status = 'resolved'";
+    ps = cn.prepareStatement(sql2);
+    ps.setInt(1, user_id);
+    rs = ps.executeQuery();
+    
+    if (rs.next()) {
+        totalReports2 = rs.getInt("total_reports2");
+    }
+    
+  } catch (Exception e) {
+    e.printStackTrace();
+  } finally {
+    // Close resources
+    try { if (rs != null) rs.close(); } catch (Exception e) {}
+    try { if (ps != null) ps.close(); } catch (Exception e) {}
+    try { if (cn != null) cn.close(); } catch (Exception e) {}
+  }
+  
+  // Set as attributes for EL to access
+  pageContext.setAttribute("total_reports", totalReports);
+  pageContext.setAttribute("total_reports1", totalReports1);
+  pageContext.setAttribute("total_reports2", totalReports2);
+%>
                             <div>
-                                <div class="stat-value">12</div>
+                                <div class="stat-value">${total_reports}</div>
                                 <div class="stat-label">Submitted Grievances</div>
                             </div>
                             <div class="stat-icon">
@@ -1413,7 +1480,7 @@
                         </div>
                         <div class="stat-trend">
                             <span style="color: var(--secondary-color);">
-                                <i class="fas fa-arrow-up"></i> 2 new this week
+                                <i class="fas fa-arrow-up"></i> 
                             </span>
                         </div>
                     </div>
@@ -1421,7 +1488,7 @@
                     <div class="stat-card in-progress">
                         <div class="stat-header">
                             <div>
-                                <div class="stat-value">5</div>
+                                <div class="stat-value">${total_reports1}</div>
                                 <div class="stat-label">In Progress</div>
                             </div>
                             <div class="stat-icon">
@@ -1430,7 +1497,7 @@
                         </div>
                         <div class="stat-trend">
                             <span style="color: #b08c2c;">
-                                Avg. resolution time: 14 days
+                                
                             </span>
                         </div>
                     </div>
@@ -1438,7 +1505,7 @@
                     <div class="stat-card resolved">
                         <div class="stat-header">
                             <div>
-                                <div class="stat-value">6</div>
+                                <div class="stat-value">${total_reports2}</div>
                                 <div class="stat-label">Resolved</div>
                             </div>
                             <div class="stat-icon">
@@ -1447,7 +1514,7 @@
                         </div>
                         <div class="stat-trend">
                             <span style="color: var(--secondary-color);">
-                                <i class="fas fa-star"></i> 92% satisfaction
+                                <i class="fas fa-star"></i> 
                             </span>
                         </div>
                     </div>
